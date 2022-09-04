@@ -7,12 +7,42 @@ const initialForm = {
   constellation: "",
 };
 
-export const CrudForm = () => {
+export const CrudForm = ({createData, updateData}) => {
   const [form, setForm] = useState(initialForm);
 
-  const handleChange = (e) => {};
-  const handleSubmit = (e) => {};
-  const handleReset = (e) => {};
+  const handleChange = (e) => {
+    // El ingresar datos en los campos, automáticamente deben cambiar el estado del formulario sin mutarlo
+    setForm({
+        ...form,
+        [e.target.name]: e.target.value
+    })
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Si alguno de los campos está vacío, no podemos continuar
+    if (!form.name || !form.constellation) {
+        alert('Campos vacios');
+        return true;
+    }
+
+    // Verificar si se trata de un registro o una actualización
+    // La tarea de este componente es emitir información a través de las funciones pasadas como props, 
+    // La lógica de registro o actualización le corresponde al componente padre
+    if (form.id === null) {
+        createData(form);
+    } else {
+        updateData(form);
+    }
+
+    // Resetear formulario
+    handleReset();
+  };
+
+  const handleReset = () => {
+    // Establecer el formulario a su estado inicial
+    setForm(initialForm);
+  };
 
   return (
     <div>
