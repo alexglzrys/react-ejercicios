@@ -1,13 +1,15 @@
 import React from "react";
 
-export const CrudTableRow = ({element}) => {
+export const CrudTableRow = ({element, deleteData, setDataToEdit}) => {
+  const {name, constellation, id} = element;
   return (
     <tr>
-      <td>{element.name}</td>
-      <td>{element.constellation}</td>
+      <td>{name}</td>
+      <td>{constellation}</td>
       <td>
-        <button>Editar</button>
-        <button>Eliminar</button>
+        {/* Burbujear información hacia el padre mediante el uso de props de tipo función */}
+        <button onClick={() => setDataToEdit(element)}>Editar</button>
+        <button onClick={() => deleteData(id)}>Eliminar</button>
       </td>
     </tr>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Estado inicial del formulario
 const initialForm = {
@@ -7,8 +7,18 @@ const initialForm = {
   constellation: "",
 };
 
-export const CrudForm = ({createData, updateData}) => {
+export const CrudForm = ({createData, updateData, dataToEdit}) => {
   const [form, setForm] = useState(initialForm);
+
+  // El componente se reutiliza tanto para registros como actualizaciones, el diferenciador es la presencia de valor en el id del estado de formulario
+
+  // El estado inicial del formulario cambia si se trata de una actualización, por tanto el hook useEfect nos puede servir para disparar el cambio de estado si el valor de dataToEdit cambia
+  useEffect(() => {
+    // Es importante condicionar, ya que este hook siempre se dispara durante el montaje
+    if (dataToEdit) {
+      setForm({...dataToEdit});
+    }
+  }, [dataToEdit])
 
   const handleChange = (e) => {
     // El ingresar datos en los campos, automáticamente deben cambiar el estado del formulario sin mutarlo
@@ -46,7 +56,7 @@ export const CrudForm = ({createData, updateData}) => {
 
   return (
     <div>
-      <h3>Agregar</h3>
+      <h3>{form.id ? 'Editar' : 'Agregar'}</h3>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -62,7 +72,7 @@ export const CrudForm = ({createData, updateData}) => {
           value={form.constellation}
           onChange={handleChange}
         />
-        <button type="submit">Registrar</button>
+        <button type="submit">{form.id ? 'Actualizar' : 'Registrar'}</button>
         <button type="reset" onClick={handleReset}>
           Limpiar
         </button>

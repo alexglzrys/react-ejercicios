@@ -43,8 +43,11 @@ export const CrudApp = () => {
     // Actualizar el estado con la nueva data
     setDb([...db, data]);
   };
-
-  const updateData = (data) => {};
+  const updateData = (data) => {
+    // Conservar todos los registros a excepción del que se ha editado, mismo que debe ser reemplazado con el objeto que contiene la nueva data
+    const newData = db.map(element =>  element.id === data.id ? data : element);
+    setDb([...newData]);
+  };
   const deleteData = (id) => {};
 
   return (
@@ -56,7 +59,7 @@ export const CrudApp = () => {
         <CrudForm createData={createData} updateData={updateData} dataToEdit={dataToEdit} />
 
         {/* La tabla elimina */}
-        <CrudTable data={db} deleteData={deleteData} />
+        <CrudTable data={db} deleteData={deleteData} setDataToEdit={setDataToEdit} />
     </>
   )
 }
