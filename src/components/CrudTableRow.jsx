@@ -8,8 +8,8 @@ export const CrudTableRow = ({element, deleteData, setDataToEdit}) => {
       <td>{constellation}</td>
       <td>
         {/* Burbujear información hacia el padre mediante el uso de props de tipo función */}
-        <button onClick={() => setDataToEdit(element)}>Editar</button>
-        <button onClick={() => deleteData(id)}>Eliminar</button>
+        <button className="btn-edit" onClick={() => setDataToEdit(element)}>Editar</button>
+        <button className="btn-delete" onClick={() => deleteData(id)}>Eliminar</button>
       </td>
     </tr>
   );

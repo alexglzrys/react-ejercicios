@@ -55,7 +55,7 @@ export const CrudForm = ({createData, updateData, dataToEdit}) => {
   };
 
   return (
-    <div>
+    <div className="form">
       <h3>{form.id ? 'Editar' : 'Agregar'}</h3>
       <form onSubmit={handleSubmit}>
         <input

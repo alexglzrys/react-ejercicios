@@ -1,35 +1,35 @@
-import React, { useState } from 'react'
-import { CrudForm } from './CrudForm'
-import { CrudTable } from './CrudTable'
+import React, { useState } from "react";
+import { CrudForm } from "./CrudForm";
+import { CrudTable } from "./CrudTable";
 
 // Estado inicial de la aplicación global
 const initialDB = [
   {
     id: 1,
-    name: 'Seiya de Pegasus',
-    constellation: 'Marte'
+    name: "Seiya de Pegasus",
+    constellation: "Marte",
   },
   {
     id: 2,
-    name: 'Shun de Andromeda',
-    constellation: 'Andromeda'
+    name: "Shun de Andromeda",
+    constellation: "Andromeda",
   },
   {
     id: 3,
-    name: 'Ikki de Phoenix',
-    constellation: 'Tierra'
+    name: "Ikki de Phoenix",
+    constellation: "Tierra",
   },
   {
     id: 4,
-    name: 'Shiryū de Dragon',
-    constellation: 'Júpiter'
+    name: "Shiryū de Dragon",
+    constellation: "Júpiter",
   },
   {
     id: 5,
-    name: 'Hyōga de Cygnus',
-    constellation: 'Luna'
-  }
-]
+    name: "Hyōga de Cygnus",
+    constellation: "Luna",
+  },
+];
 
 export const CrudApp = () => {
   const [db, setDb] = useState(initialDB);
@@ -45,21 +45,41 @@ export const CrudApp = () => {
   };
   const updateData = (data) => {
     // Conservar todos los registros a excepción del que se ha editado, mismo que debe ser reemplazado con el objeto que contiene la nueva data
-    const newData = db.map(element =>  element.id === data.id ? data : element);
+    const newData = db.map((element) =>
+      element.id === data.id ? data : element
+    );
     setDb([...newData]);
   };
-  const deleteData = (id) => {};
+  const deleteData = (id) => {
+    // Por buenas prácticas es importante especificar si las funciones nativas son del objeto wondow | document.
+    const response = window.confirm(
+      `¿Estas seguro de querer eliminar el registro ${id}`
+    );
+    if (response) {
+      const newData = db.filter((element) => element.id !== id);
+      setDb([...newData]);
+    }
+  };
 
   return (
     <>
-        <h3>CRUD con React</h3>
-        {/* Pasar las funciones al componente hijo, mismas que se encargan de gestionar el estado global de la aplicación */}
-        
+      <h3>CRUD Fake con React</h3>
+      {/* Pasar las funciones al componente hijo, mismas que se encargan de gestionar el estado global de la aplicación */}
+      <section>
         {/* El formulario registra y actualiza */}
-        <CrudForm createData={createData} updateData={updateData} dataToEdit={dataToEdit} />
+        <CrudForm
+          createData={createData}
+          updateData={updateData}
+          dataToEdit={dataToEdit}
+        />
 
         {/* La tabla elimina */}
-        <CrudTable data={db} deleteData={deleteData} setDataToEdit={setDataToEdit} />
+        <CrudTable
+          data={db}
+          deleteData={deleteData}
+          setDataToEdit={setDataToEdit}
+        />
+      </section>
     </>
-  )
-}
+  );
+};
