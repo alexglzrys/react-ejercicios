@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { helperHttp } from "../helpers/helperHttp";
 import { CrudForm } from "./CrudForm";
 import { CrudTable } from "./CrudTable";
-
-// Estado inicial de la aplicación global
-const initialDB = [];
+import { Loader } from "./Loader";
+import { Message } from "./Message";
 
 export const CrudJSONServer = () => {
-  const [db, setDb] = useState(initialDB);
+  const [db, setDb] = useState(null);
   // Variable de estado para saber si se trata de un registro o una actualización
   const [dataToEdit, setDataToEdit] = useState(null);
+  // Variables de estado para controlar el loader y mensaje de error
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const API = helperHttp();
   const URL = "http://localhost:5000/data";
@@ -17,13 +19,23 @@ export const CrudJSONServer = () => {
   useEffect(() => {
     // Realizar petición Fetch para solicitud de datos
     const getFetch = async () => {
+      setLoading(true);
       try {
-        const posts = await API.get(URL);
-        // Actualizar estado
-        setDb(posts);
+        const response = await API.get(URL);
+        if (response.err) {
+          setDb(null);
+          setError(`Error: ${response.status} - ${response.statusText}`);
+        } else {
+          // Actualizar estado
+          setDb(response);
+        }
       } catch (err) {
-        console.log("error en la petición:", err.message);
+        if (err.err.message) setError(`Error: ${err.err.message}`);
+        else setError(`Error: ${err.err.status} - ${err.err.statusText}`);
+        console.log("error en la petición:", err);
+        setDb(null);
       }
+      setLoading(false);
     };
 
     getFetch();
@@ -66,12 +78,18 @@ export const CrudJSONServer = () => {
           dataToEdit={dataToEdit}
         />
 
-        {/* La tabla elimina */}
-        <CrudTable
-          data={db}
-          deleteData={deleteData}
-          setDataToEdit={setDataToEdit}
-        />
+        {/* Renderizar indicadores con base al estado actual del componente */}
+        {loading && <Loader />}
+        {error && <Message message={error} color="#f8d7da" />}
+
+        {/* Mostrar la tabla solo cuando se tengan datos desde la API */}
+        {db && (
+          <CrudTable
+            data={db}
+            deleteData={deleteData}
+            setDataToEdit={setDataToEdit}
+          />
+        )}
       </section>
     </>
   );

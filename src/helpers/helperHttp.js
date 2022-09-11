@@ -47,7 +47,7 @@ export const helperHttp = () => {
               statusText: res.statusText || "Ocurrió un error",
             })
       )
-      .catch(err => Promise.reject({err: err, message: err.message}));
+      .catch(err => Promise.reject({err: err, status: 500, statusText: err.message}));
   };
 
   // las funciones públicas de este helper - verbos HTTP
