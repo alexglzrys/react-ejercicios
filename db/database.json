@@ -1,0 +1,29 @@
+{
+ "data":[   
+  {
+      "id": 1,
+      "name": "Seiya de Pegasus",
+      "constellation": "Pegasus"
+    },
+    {
+      "id": 2,
+      "name": "Shun de Andromeda",
+      "constellation": "Andromeda"
+    },
+    {
+      "id": 3,
+      "name": "Ikki de Phoenix",
+      "constellation": "Phoenix"
+    },
+    {
+      "id": 4,
+      "name": "Shiryū de Dragon",
+      "constellation": "Dragon"
+    },
+    {
+      "id": 5,
+      "name": "Hyōga de Cygnus",
+      "constellation": "Cygnus"
+    }
+  ]
+}
