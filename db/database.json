@@ -1,6 +1,6 @@
 {
- "data":[   
-  {
+  "data": [
+    {
       "id": 1,
       "name": "Seiya de Pegasus",
       "constellation": "Pegasus"
@@ -24,6 +24,11 @@
       "id": 5,
       "name": "Hyōga de Cygnus",
       "constellation": "Cygnus"
+    },
+    {
+      "id": 1662925835151,
+      "name": "Vegeta",
+      "constellation": "Planeta Veyita"
     }
   ]
 }

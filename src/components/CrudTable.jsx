@@ -15,7 +15,7 @@ export const CrudTable = ({ deleteData, setDataToEdit, data }) => {
         </thead>
         <tbody>
           {/* Mostrar mensaje de retroalimentación al usuario si no hay datos */}
-          {data.length === 0 ? (
+          {data === null || data.length === 0 ? (
             <tr>
               <td colSpan="3">No hay datos</td>
             </tr>
