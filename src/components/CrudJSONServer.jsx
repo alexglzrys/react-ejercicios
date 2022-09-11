@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { helperHttp } from "../helpers/helperHttp";
 import { CrudForm } from "./CrudForm";
 import { CrudTable } from "./CrudTable";
 
@@ -9,6 +10,24 @@ export const CrudJSONServer = () => {
   const [db, setDb] = useState(initialDB);
   // Variable de estado para saber si se trata de un registro o una actualización
   const [dataToEdit, setDataToEdit] = useState(null);
+
+  const API = helperHttp();
+  const URL = "http://localhost:5000/data";
+
+  useEffect(() => {
+    // Realizar petición Fetch para solicitud de datos
+    const getFetch = async () => {
+      try {
+        const posts = await API.get(URL);
+        // Actualizar estado
+        setDb(posts);
+      } catch (err) {
+        console.log("error en la petición:", err.message);
+      }
+    };
+
+    getFetch();
+  }, []);
 
   // Funciones para gestionar la data
   const createData = (data) => {
